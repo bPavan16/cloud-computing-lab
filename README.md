@@ -1,6 +1,6 @@
 # Cloud Computing Lab Exercises
 
-This repository contains a collection of hands-on lab exercises taught in KLE TECHNOLOGICAL UNIVERSITY. The exercises cover topics such as containerization, orchestration, microservices, cloud storage, and more.
+This repository contains a collection of hands-on lab exercises conducted at KLE Technological University. The exercises cover topics such as containerization, orchestration, microservices, cloud storage, and more.
 
 ## Table of Contents
 

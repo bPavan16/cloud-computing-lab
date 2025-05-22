@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://pavan:pavan@cluster0-shard-00-00.honvs.mongodb.net:27017,cluster0-shard-00-01.honvs.mongodb.net:27017,cluster0-shard-00-02.honvs.mongodb.net:27017/?replicaSet=atlas-ul9iee-shard-0&ssl=true&authSource=admin&retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://pavan:<password>@cluster0-shard-00-00.honvs.mongodb.net:27017,cluster0-shard-00-01.honvs.mongodb.net:27017,cluster0-shard-00-02.honvs.mongodb.net:27017/?replicaSet=atlas-ul9iee-shard-0&ssl=true&authSource=admin&retryWrites=true&w=majority&appName=Cluster0';
 
 const noteSchema = new mongoose.Schema({
     title: {

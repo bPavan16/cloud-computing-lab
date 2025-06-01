@@ -1,0 +1,10 @@
+[app]
+app-server ansible_host=192.168.1.10  # Replace with your app server IP
+
+[db]
+db-server ansible_host=192.168.1.11   # Replace with your database server IP
+
+[all:vars]
+ansible_user=ubuntu                   # Replace with your SSH user
+ansible_ssh_private_key_file=~/.ssh/id_rsa  # Path to your SSH key
+ansible_become=yes                    # Enable privilege escalation

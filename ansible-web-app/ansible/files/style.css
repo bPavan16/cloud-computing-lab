@@ -1,0 +1,17 @@
+body {
+  background: #eef;
+  font-family: Arial;
+}
+.form-container {
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+}
+input, button {
+  width: 90%;
+  margin: 10px;
+  padding: 10px;
+}

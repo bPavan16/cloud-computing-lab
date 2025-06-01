@@ -1,0 +1,126 @@
+
+---
+- name: Deploy Full-stack Registration App
+  hosts: webserver
+  become: yes
+
+  vars:
+    mongo_port: 27017
+    app_port: 3000
+
+  tasks:
+    - name: Update APT package cache
+      apt:
+        update_cache: yes
+
+    - name: Install necessary packages
+      apt:
+        name:
+          - nginx
+          - nodejs
+          - npm
+          - mongodb-org  # Changed from 'mongodb' to 'mongodb-org'
+        state: present
+
+    - name: Enable and start MongoDB
+      systemd:
+        name: mongod
+        enabled: yes
+        state: started
+
+    - name: Copy frontend files to nginx directory
+      copy:
+        src: "{{ item }}"
+        dest: "/var/www/html/"
+      with_fileglob:
+        - "files/*.html"
+        - "files/*.css"
+
+    - name: Remove default nginx index
+      file:
+        path: "/var/www/html/index.nginx-debian.html"
+        state: absent
+
+    - name: Copy backend file
+      copy:
+        src: files/app.js
+        dest: /opt/app.js
+        mode: '0755'
+
+    - name: Copy frontend file
+      copy:
+        src: files/page.html
+        dest: /opt/page.html
+        mode: '0644'
+
+    - name: Create package.json for Node.js dependencies
+      copy:
+        content: |
+          {
+            "name": "registration-app",
+            "version": "1.0.0",
+            "dependencies": {
+              "express": "^4.18.2",
+              "body-parser": "^1.20.2",
+              "mongodb": "^5.0.0"
+            }
+          }
+        dest: /opt/package.json
+        mode: '0644'
+
+    - name: Install Node.js dependencies
+      npm:
+        path: /opt/
+        state: present
+      async: 300
+      poll: 15
+
+    # - name: Run the Node.js backend
+    #   shell: "nohup node /opt/app.js &"
+    #   async: 10
+    #   poll: 0
+
+
+    - name: Create systemd service file for Node.js application
+      copy:
+        content: |
+          [Unit]
+          Description=Registration App Node.js Service
+          After=network.target mongodb.service
+
+          [Service]
+          ExecStart=/usr/bin/node /opt/app.js
+          WorkingDirectory=/opt
+          Restart=always
+          RestartSec=10
+          StandardOutput=syslog
+          StandardError=syslog
+          SyslogIdentifier=registration-app
+          User=root
+          Environment=NODE_ENV=production
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/registration-app.service
+        mode: '0644'
+
+    - name: Enable and start Node.js service
+      systemd:
+        name: registration-app
+        daemon_reload: yes
+        enabled: yes
+        state: started
+
+    - name: Allow app and mongo port in firewall
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+      loop:
+        - "{{ app_port }}"
+        - "{{ mongo_port }}"
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes

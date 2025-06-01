@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Frontend</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      display: inline-block;
+      text-align: left;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      vertical-align: top;
+    }
+    .login-container {
+      width: 300px;
+    }
+    .users-container {
+      width: 400px;
+    }
+    .actions-container {
+      width: 350px;
+    }
+    .container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .container input, .container select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .btn-primary {
+      background-color: #007BFF;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .btn-success {
+      background-color: #28a745;
+      color: white;
+    }
+    .btn-success:hover {
+      background-color: #218838;
+    }
+    .btn-info {
+      background-color: #17a2b8;
+      color: white;
+    }
+    .btn-info:hover {
+      background-color: #138496;
+    }
+    .btn-warning {
+      background-color: #ffc107;
+      color: black;
+    }
+    .btn-warning:hover {
+      background-color: #e0a800;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+    .demo-info {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    #result {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Microservices Frontend</h1>
+  
+  <div class="demo-info">
+    <strong>Demo Credentials:</strong><br>
+    Username: admin<br>
+    Password: 1234
+  </div>
+
+  <div class="container login-container">
+    <h3>Authentication</h3>
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter username" value="admin">
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password" value="1234">
+    
+    <button class="btn btn-primary" onclick="login()">Login</button>
+  </div>
+
+  <div class="container actions-container">
+    <h3>User Actions</h3>
+    
+    <button class="btn btn-success" onclick="fetchAllUsers()">Get All Users</button>
+    
+    <label for="userId">User ID:</label>
+    <input type="number" id="userId" placeholder="Enter user ID" value="1">
+    <button class="btn btn-info" onclick="fetchUserById()">Get User by ID</button>
+    
+    <label for="roleFilter">Filter by Role:</label>
+    <select id="roleFilter">
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+      <option value="moderator">Moderator</option>
+    </select>
+    <button class="btn btn-info" onclick="fetchUsersByRole()">Get Users by Role</button>
+    
+    <label for="deptFilter">Filter by Department:</label>
+    <select id="deptFilter">
+      <option value="Engineering">Engineering</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Support">Support</option>
+      <option value="HR">HR</option>
+      <option value="IT">IT</option>
+    </select>
+    <button class="btn btn-info" onclick="fetchUsersByDepartment()">Get Users by Department</button>
+    
+    <button class="btn btn-warning" onclick="fetchUserStats()">Get User Statistics</button>
+    
+    <hr>
+    <h4>Create New User</h4>
+    <label for="newName">Name:</label>
+    <input type="text" id="newName" placeholder="Enter name">
+    
+    <label for="newEmail">Email:</label>
+    <input type="email" id="newEmail" placeholder="Enter email">
+    
+    <label for="newRole">Role:</label>
+    <select id="newRole">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+      <option value="moderator">Moderator</option>
+    </select>
+    
+    <label for="newAge">Age:</label>
+    <input type="number" id="newAge" placeholder="Enter age">
+    
+    <label for="newDept">Department:</label>
+    <input type="text" id="newDept" placeholder="Enter department">
+    
+    <button class="btn btn-success" onclick="createUser()">Create User</button>
+    
+    <hr>
+    <label for="deleteId">Delete User ID:</label>
+    <input type="number" id="deleteId" placeholder="Enter user ID to delete">
+    <button class="btn btn-danger" onclick="deleteUser()">Delete User</button>
+  </div>
+
+  <div class="container users-container">
+    <h3>Results</h3>
+    <div id="result">Click any button to see results here...</div>
+  </div>
+
+  <script>
+    function displayResult(data) {
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+
+    function displayError(error) {
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `<p style="color: red;">Error: ${error}</p>`;
+    }
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      fetch("/auth-service/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        displayResult(data);
+        if (data.success) {
+          alert("Login successful!");
+        }
+      })
+      .catch(err => displayError(err.message));
+    }
+
+    function fetchAllUsers() {
+      fetch("/user-service/users")
+      .then(res => res.json())
+      .then(data => displayResult(data))
+      .catch(err => displayError(err.message));
+    }
+
+    function fetchUserById() {
+      const userId = document.getElementById("userId").value;
+      if (!userId) {
+        displayError("Please enter a user ID");
+        return;
+      }
+      
+      fetch(`/user-service/users/${userId}`)
+      .then(res => res.json())
+      .then(data => displayResult(data))
+      .catch(err => displayError(err.message));
+    }
+
+    function fetchUsersByRole() {
+      const role = document.getElementById("roleFilter").value;
+      
+      fetch(`/user-service/users/role/${role}`)
+      .then(res => res.json())
+      .then(data => displayResult(data))
+      .catch(err => displayError(err.message));
+    }
+
+    function fetchUsersByDepartment() {
+      const dept = document.getElementById("deptFilter").value;
+      
+      fetch(`/user-service/users/department/${dept}`)
+      .then(res => res.json())
+      .then(data => displayResult(data))
+      .catch(err => displayError(err.message));
+    }
+
+    function fetchUserStats() {
+      fetch("/user-service/stats")
+      .then(res => res.json())
+      .then(data => displayResult(data))
+      .catch(err => displayError(err.message));
+    }
+
+    function createUser() {
+      const name = document.getElementById("newName").value;
+      const email = document.getElementById("newEmail").value;
+      const role = document.getElementById("newRole").value;
+      const age = document.getElementById("newAge").value;
+      const department = document.getElementById("newDept").value;
+
+      if (!name || !email) {
+        displayError("Name and email are required");
+        return;
+      }
+
+      const userData = { name, email, role, age: parseInt(age), department };
+
+      fetch("/user-service/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        displayResult(data);
+        // Clear form
+        document.getElementById("newName").value = "";
+        document.getElementById("newEmail").value = "";
+        document.getElementById("newAge").value = "";
+        document.getElementById("newDept").value = "";
+      })
+      .catch(err => displayError(err.message));
+    }
+
+    function deleteUser() {
+      const userId = document.getElementById("deleteId").value;
+      if (!userId) {
+        displayError("Please enter a user ID to delete");
+        return;
+      }
+
+      if (!confirm(`Are you sure you want to delete user ${userId}?`)) {
+        return;
+      }
+
+      fetch(`/user-service/users/${userId}`, {
+        method: "DELETE"
+      })
+      .then(res => res.json())
+      .then(data => {
+        displayResult(data);
+        document.getElementById("deleteId").value = "";
+      })
+      .catch(err => displayError(err.message));
+    }
+  </script>
+</body>
+</html>

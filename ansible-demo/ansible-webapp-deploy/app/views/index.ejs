@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management App</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User Management</h1>
+        
+        <div class="user-form">
+            <h2>Add/Edit User</h2>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" id="submitBtn">Add User</button>
+                    <button type="button" id="cancelBtn" style="display: none;">Cancel</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="user-list">
+            <h2>Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <% users.forEach(user => { %>
+                    <tr data-id="<%= user.id %>">
+                        <td><%= user.id %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.email %></td>
+                        <td>
+                            <button class="edit-btn" data-id="<%= user.id %>">Edit</button>
+                            <button class="delete-btn" data-id="<%= user.id %>">Delete</button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="/js/script.js"></script>
+</body>
+</html>

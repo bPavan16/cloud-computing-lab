@@ -1,0 +1,15 @@
+---
+- name: Configure common settings for all servers
+  hosts: all
+  roles:
+    - common
+
+- name: Deploy and configure database server
+  hosts: db
+  roles:
+    - db
+
+- name: Deploy and configure application server
+  hosts: app
+  roles:
+    - app

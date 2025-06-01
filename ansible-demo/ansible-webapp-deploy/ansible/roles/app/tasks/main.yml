@@ -1,0 +1,76 @@
+---
+- name: Add Node.js repository
+  shell: curl -sL https://deb.nodesource.com/setup_{{ node_version }} | bash -
+  args:
+    warn: false
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+
+- name: Create application directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0755
+
+- name: Copy application code
+  copy:
+    src: "{{ playbook_dir }}/../../app/"
+    dest: "{{ app_dir }}"
+    owner: ubuntu
+    group: ubuntu
+    mode: 0644
+
+- name: Install app dependencies
+  npm:
+    path: "{{ app_dir }}"
+    state: present
+
+- name: Copy database schema to DB server
+  copy:
+    src: "{{ playbook_dir }}/../../app/database.sql"
+    dest: /tmp/database.sql
+    mode: 0644
+  delegate_to: "{{ groups['db'][0] }}"
+
+- name: Create app service file
+  template:
+    src: app.service.j2
+    dest: /etc/systemd/system/webapp.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Allow incoming connections to app port
+  ufw:
+    rule: allow
+    port: "{{ app_port }}"
+    proto: tcp
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start web app service
+  systemd:
+    name: webapp
+    state: started
+    enabled: yes
+
+# Add this to your existing app role tasks
+- name: Create public and views directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0755
+  with_items:
+    - "{{ app_dir }}/public"
+    - "{{ app_dir }}/public/css"
+    - "{{ app_dir }}/public/js"
+    - "{{ app_dir }}/views"

@@ -1,0 +1,25 @@
+---
+- name: Stop Registration App
+  hosts: webserver
+  become: yes
+
+  tasks:
+    - name: Stop Node.js service
+      systemd:
+        name: registration-app
+        state: stopped
+      ignore_errors: yes
+
+    - name: Stop Nginx
+      service:
+        name: nginx
+        state: stopped
+      ignore_errors: yes
+
+    - name: Stop MongoDB (optional)
+      systemd:
+        name: mongod
+        state: stopped
+      ignore_errors: yes
+      tags:
+        - mongodb

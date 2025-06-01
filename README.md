@@ -1,85 +1,147 @@
-# Cloud Computing Lab Exercises
+# Cloud Computing - Hands-on Lab Exercises
 
-This repository contains a collection of hands-on lab exercises conducted at KLE Technological University. The exercises cover topics such as containerization, orchestration, microservices, cloud storage, and more.
+<div align="center">
 
-## Table of Contents
+![Cloud Computing](https://img.shields.io/badge/Cloud%20Computing-Labs-blue)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)
+![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white)
+![Microservices](https://img.shields.io/badge/Microservices-FF6F00?style=flat-square&logo=microservices&logoColor=white)
 
-1. [Introduction](#introduction)
-2. [Prerequisites](#prerequisites)
-3. [Lab Exercises](#lab-exercises)
-4. [Setup Instructions](#setup-instructions)
-5. [Contributing](#contributing)
-6. [License](#license)
+</div>
+
+## 📋 Overview
+
+This repository contains a collection of hands-on lab exercises assigned for the Cloud Computing course at KLE Technological University. These exercises provide practical experience with container technologies, orchestration, infrastructure as code, and microservices architecture.
+
+## 🧪 Lab Exercises
+
+### 1. Microservices with Docker (microservices-app-docker)
+
+A simple microservices application built with Docker, featuring:
+
+- **Frontend Service:** NGINX serving HTML/CSS/JS
+- **Auth Service:** Node.js service handling authentication
+- **User Service:** Node.js service for user data management
+- **Docker Compose:** Service orchestration without Kubernetes
+
+**Key Learning Outcomes:**
+- Containerization of Node.js applications
+- Docker Compose for multi-container applications
+- Microservices communication patterns
+- Frontend-backend integration in containerized environments
+
+**Technologies Used:** Docker, Node.js, Express, NGINX
+
+### 2. Kubernetes Microservices Deployment (k8s-microservices-deploy)
+
+Basic Kubernetes deployment of a three-tier microservices application:
+
+- Separate deployments for frontend, auth, and user services
+- Kubernetes service objects for internal communication
+- NodePort service for external access
+
+**Key Learning Outcomes:**
+- Basic Kubernetes objects (Deployments, Services, Pods)
+- Kubernetes manifest files (YAML)
+- Application deployment on Kubernetes
+- Service discovery in Kubernetes
+
+**Technologies Used:** Kubernetes, Docker, Node.js, NGINX
+
+### 3. Kubernetes Autoscaling (k8s-microservices-scale)
+
+Advanced Kubernetes deployment featuring both horizontal and vertical pod autoscaling:
+
+- Horizontal Pod Autoscaler (HPA) configurations
+- Vertical Pod Autoscaler (VPA) configurations
+- Load testing scripts to demonstrate autoscaling
+- Monitoring and observability tools
+
+**Key Learning Outcomes:**
+- Kubernetes autoscaling concepts
+- Resource management in Kubernetes
+- Performance testing and load generation
+- Monitoring Kubernetes cluster behavior
+
+**Technologies Used:** Kubernetes, HPA, VPA, Shell Scripting
+
+### 4. Infrastructure as Code with Ansible (ansible-web-app)
+
+Automated deployment of a web application using Ansible:
+
+- Role-based Ansible structure
+- MongoDB database configuration
+- NGINX web server setup
+- Node.js application deployment
+
+**Key Learning Outcomes:**
+- Infrastructure as Code principles
+- Ansible playbooks and roles
+- Configuration management
+- Service orchestration without containers
+
+**Technologies Used:** Ansible, Node.js, MongoDB, NGINX
+
+### 5. Advanced Ansible Deployment (ansible-demo)
+
+Multi-server application deployment using Ansible roles:
+
+- Web application server role
+- Database server role
+- Common configuration role
+- Templating for configuration files
+
+**Key Learning Outcomes:**
+- Multi-node orchestration
+- Advanced Ansible patterns
+- Environment-specific configurations
+- Database initialization and schema management
+
+**Technologies Used:** Ansible, MySQL, Node.js, EJS Templates
+
+## 🚀 Getting Started
+
+Each lab exercise has its own directory with a specific README and setup instructions. The general approach for all exercises is:
+
+1. Clone this repository
+2. Navigate to the exercise directory
+3. Follow the README instructions in that directory
+
+Example:
+
+```bash
+git clone https://github.com/bPavan16/cloud-computing-labs.git
+cd cloud-computing-labs/microservices-app-docker
+# Follow the instructions in the README.md
+```
+
+## 📚 Prerequisites
+
+Different labs have different prerequisites, but generally you'll need:
+
+- Ubuntu Linux environment (local or VM)
+- Docker and Docker Compose
+- Kubernetes (Minikube for local development)
+- Ansible
+- Node.js
+- Basic understanding of YAML and JSON
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgements
+
+- KLE Technological University for the course structure
+- The open-source community for the tools and technologies used
+- All contributors to this repository
 
 ---
 
-## Introduction
+<div align="center">
 
-Cloud computing is a key technology in modern software development and deployment. These lab exercises are designed to provide practical experience with popular cloud computing tools and platforms, including:
+Created with ❤️ by [Pavan H Bhakta](https://github.com/bPavan16)
 
-- **Docker**: For containerization
-- **Kubernetes**: For orchestration
-- **AWS/GCP/Azure**: For cloud services
-- **Minikube**: For local Kubernetes clusters
-- **NGINX**: For web server configuration
-- **Node.js/Python**: For backend microservices
+</div>
 
----
-
-## Prerequisites
-
-Before starting the lab exercises, ensure you have the following installed on your system:
-
-- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Kubernetes CLI (kubectl)**: [Install kubectl](https://kubernetes.io/docs/tasks/tools/)
-- **Minikube**: [Install Minikube](https://minikube.sigs.k8s.io/docs/start/)
-- **Node.js**: [Install Node.js](https://nodejs.org/)
-- **Python** (optional): [Install Python](https://www.python.org/)
-
----
-
-## Lab Exercises
-
-### 1. **Introduction to Docker**
-   - Learn how to create and manage containers.
-   - Build and run Docker images.
-   - Example: Create a simple Node.js or Python app and containerize it.
-
-### 2. **Kubernetes Basics**
-   - Deploy applications using Kubernetes.
-   - Understand Pods, Deployments, and Services.
-   - Example: Deploy a multi-container application using Kubernetes.
-
-### 3. **Microservices Architecture**
-   - Build and deploy microservices using Node.js or Python.
-   - Example: Create an authentication service and a user service.
-
-### 4. **Load Balancing and Scaling**
-   - Configure load balancers in Kubernetes.
-   - Scale applications horizontally using Kubernetes.
-
----
-
-## Setup Instructions
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/bPavan16/cloud-computing-lab.git
-   cd cloud-computing-lab
-   ```
-
-2. Follow the instructions in each lab folder's `README.md` file to complete the exercises.
-
-3. Use the provided Kubernetes YAML files, Dockerfiles, and source code to deploy and test the applications.
-
----
-
-## Contributing
-
-Contributions are welcome! If you have additional exercises or improvements, feel free to submit a pull request. Please ensure your contributions align with the repository's goals and structure.
-
----
-
-## License
-
-This repository is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute the content with proper attribution.

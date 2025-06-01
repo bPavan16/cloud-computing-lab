@@ -1,0 +1,13 @@
+# Application settings
+app_dir: /opt/webapp
+node_version: 18.x
+
+# Database settings
+mysql_root_password: "StrongRootPassword123!"
+db_name: webappdb
+db_user: webapp
+db_password: "WebAppPassword456!"
+
+# Firewall settings
+app_port: 3000
+mysql_port: 3306

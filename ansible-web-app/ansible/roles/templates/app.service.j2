@@ -1,0 +1,17 @@
+[Unit]
+Description=Web Application
+After=network.target
+
+[Service]
+Environment=DB_HOST={{ hostvars[groups['db'][0]]['ansible_host'] }}
+Environment=DB_USER={{ db_user }}
+Environment=DB_PASSWORD={{ db_password }}
+Environment=DB_NAME={{ db_name }}
+Type=simple
+User=ubuntu
+WorkingDirectory={{ app_dir }}
+ExecStart=/usr/bin/node {{ app_dir }}/app.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
